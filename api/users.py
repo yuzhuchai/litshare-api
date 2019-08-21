@@ -15,6 +15,7 @@ users = Blueprint('users', 'users', url_prefix='/users')
 
 @users.route('/register', methods=['post'])
 def register():
+	'''this method registers the user'''
 	payload = request.get_json()
 	try:
 		models.User.get(models.User.email == payload['email'])
@@ -30,6 +31,7 @@ def register():
 
 @users.route('/login', methods=['post'])
 def login():
+	'''this method logs user in'''
 	try:
 		payload = request.get_json()
 		user = models.User.get(models.User.email == payload['email'])
@@ -46,8 +48,19 @@ def login():
 @users.route('/logout', methods=['get'])
 @login_required
 def logout():
+	'''this method logs user out'''
 	logout_user()
 	return 'include redirect here'
+
+@users.route('/<id>', methods=['get'])
+def show_user_info(id):
+	'''this method shows user's info'''
+	user_dict = model_to_dict(current_user)
+	del user_dict['password']
+	print(user_dict)
+	print('user dictionary above ^ ')
+
+	return jsonify(data=user_dict, status={"code": 200, "message": "Success"})
 
 
 
