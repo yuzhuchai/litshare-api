@@ -28,3 +28,9 @@ def get_books():
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 
+@book.route('/<id>', mehtods=['GET'])
+def get_one_book(id):
+	book = models.Book.get_by_id(id)
+	return jsonify(data = book, status = {'code':200, 'message':'success'})
+
+
