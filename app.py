@@ -3,7 +3,10 @@ from flask_cors import CORS
 from flask_login import LoginManager
 import models
 
-#import blueprint here
+from api.users import users
+from api.books import books
+from api.requests import requests
+from api.loans import loan
 
 DEBUG = True
 PORT = 8000
@@ -14,11 +17,20 @@ app = Flask(__name__, static_url_path="")
 # secret_key
 login_manager.init_app(app)
 
-@login_manager.user_loader
+# @login_manager.user_loader
 # load user method
 
-# set up CORS
-# set up blueprint
+CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(users)
+
+CORS(books, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(books)
+
+CORS(requests, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(requests)
+
+CORS(loan, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(loan)
 
 # before_request decorator
 
