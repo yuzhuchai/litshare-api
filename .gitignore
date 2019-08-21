@@ -118,5 +118,5 @@ dmypy.json
 .pyre/
 
 # Database
-# *.sqlite
+*.sqlite
 

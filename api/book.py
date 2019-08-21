@@ -2,10 +2,11 @@ import models
 
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
+from flask_login import login_user, current_user
 
 
 #first arg is the blueprint name, second arg inport name 
-book = Blueprint('book', 'book', url_prefix='/api/books')
+book = Blueprint('book', 'book', url_prefix='/books')
 
 
 @book.route('/', methods=['POST'])
@@ -37,6 +38,17 @@ def get_one_book(id):
 	book = models.Book.get_by_id(id)
 	return jsonify(data = model_to_dict(book), status = {'code':200, 'message':'success'})
 
+
+
+@book.route('/<book_id>/copy', methods=['POST'])
+def create_copy(book_id):
+	# @login_required
+	# return (current_user.get_id(),"<----current_user id ")
+	'''this function creates a book copy'''
+	payload = request.get_json()
+	copy = models.Copy.create(**payload, owner_id=current_user.get_id(), book_id=book_id,)
+	copy_dict = model_to_dict(copy)
+	return jsonify(data=copy_dict, status={'code':200, 'message':'success'})
 
 
 	
