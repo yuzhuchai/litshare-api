@@ -31,11 +31,11 @@ def get_books():
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 
-@book.route('/<id>', mehtods=['GET'])
+@book.route('/<id>', methods=['GET'])
 def get_one_book(id):
 	'''this function is to get one book from db'''
 	book = models.Book.get_by_id(id)
-	return jsonify(data = book, status = {'code':200, 'message':'success'})
+	return jsonify(data = model_to_dict(book), status = {'code':200, 'message':'success'})
 
 
 
