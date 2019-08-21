@@ -19,15 +19,15 @@ app.secret_key = 'RLAKJDRANDOM STRING'
 
 login_manager.init_app(app)
 
+# load user method
 @login_manager.user_loader
 def load_user(userid):
 	try: 
 		return models.User.get(models.User.id == userid)
 	except models.DoesNotExist:
 		return None
-# load user method
 
-
+# CORS
 CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(users)
 
@@ -40,6 +40,7 @@ app.register_blueprint(requests)
 CORS(loan, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(loan)
 
+
 # before_request decorator
 @app.before_request
 def before_request():
@@ -51,7 +52,6 @@ def before_request():
 def after_request(response):
 	g.db.close()
 	return response
-
 
 
 @app.route('/')

@@ -5,7 +5,7 @@ from playhouse.shortcuts import model_to_dict
 
 
 #first arg is the blueprint name, second arg inport name 
-book = Blueprint('book', 'book', url_prefix='/api/books')
+book = Blueprint('book', 'book', url_prefix='/books')
 
 
 @book.route('/', methods=['POST'])

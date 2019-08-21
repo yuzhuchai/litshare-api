@@ -4,9 +4,9 @@ import models
 import os
 import sys
 import secrets
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, url_for
 from flask_bcrypt import generate_password_hash, check_password_hash
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user, login_required
 from playhouse.shortcuts import model_to_dict
 
 users = Blueprint('users', 'users', url_prefix='/users')
@@ -40,9 +40,14 @@ def login():
 		elif not check_password_hash(user.password, payload['password']):
 			return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
 	except models.DoesNotExist:
+		print('hitting model does not exist')
 		return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
 
-
+@users.route('/logout', methods=['get'])
+@login_required
+def logout():
+	logout_user()
+	return 'include redirect here'
 
 
 
