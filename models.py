@@ -69,7 +69,6 @@ class Loan(Model):
 def initialize():
 	DATABASE.connect()
 	DATABASE.create_tables([User,Book,Copy,Ask,Loan], safe=True)
-
 	print('table created')
 	DATABASE.close()
 

@@ -1,6 +1,7 @@
 from flask import Flask, g
 from flask_cors import CORS
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, current_user
+
 import models
 
 from api.user import user
@@ -47,6 +48,7 @@ def before_request():
 	g.db = models.DATABASE
 	g.db.connect()
 
+
 # after_request decorator
 @app.after_request
 def after_request(response):
@@ -60,4 +62,5 @@ def index():
 
 if __name__ == '__main__':
 	models.initialize()
+	print(current_user, 'current_user id in app')
 	app.run(debug=DEBUG, port=PORT)
