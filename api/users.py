@@ -62,5 +62,10 @@ def show_user_info(id):
 
 	return jsonify(data=user_dict, status={"code": 200, "message": "Success"})
 
-
-
+@users.route('/<id>/edit', methods=['put'])
+def edit_user_info(id):
+	'''this method allows user to update their info'''
+	payload = request.get_json()
+	query = models.User.update(**payload).where(models.User.id == id)
+	query.execute()
+	return 'user updated'

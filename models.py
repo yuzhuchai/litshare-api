@@ -56,7 +56,7 @@ class Ask(Model):
 
 
 class Loan(Model):
-	ask = ForeignKeyField(Request, backref='request')
+	ask = ForeignKeyField(Ask, backref='ask')
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
 	return_date = DateTimeField(default=None)
@@ -68,7 +68,7 @@ class Loan(Model):
 #create the tables 
 def initialize():
 	DATABASE.connect()
-	DATABASE.create_tables([User,Book,Copy,Request,Loan], safe=True)
+	DATABASE.create_tables([User,Book,Copy,Ask,Loan], safe=True)
 
 	print('table created')
 	DATABASE.close()

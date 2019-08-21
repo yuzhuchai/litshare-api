@@ -5,7 +5,7 @@ import models
 
 from api.users import users
 from api.book import book
-from api.requests import requests
+from api.ask import ask
 from api.loans import loan
 
 DEBUG = True
@@ -34,8 +34,8 @@ app.register_blueprint(users)
 CORS(book, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(book)
 
-CORS(requests, origins=['http://localhost:3000'], supports_credentials=True)
-app.register_blueprint(requests)
+CORS(ask, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(ask)
 
 CORS(loan, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(loan)
