@@ -16,8 +16,6 @@ users = Blueprint('users', 'users', url_prefix='/users')
 @users.route('/register', methods=['post'])
 def register():
 	payload = request.get_json()
-	print('this is payload:')
-	print(payload)
 	try:
 		models.User.get(models.User.email == payload['email'])
 		return jsonify(data={}, status={"code": 401, "message": "A user with that email already exists"})
@@ -29,6 +27,22 @@ def register():
 		user_dict = model_to_dict(user)
 		del user_dict['password']
 		return jsonify(data=user_dict, status={"code": 201, "message": "Success: user created"})
+
+@users.route('/login', methods=['post'])
+def login():
+	try:
+		payload = request.get_json()
+		user = models.User.get(models.User.email == payload['email'])
+		print(user)
+		if check_password_hash(user.password, payload['password']):
+			login_user(user)
+			return jsonify(data={}, status={"code": 200, "message": "Login successful"})
+		elif not check_password_hash(user.password, payload['password']):
+			return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
+	except models.DoesNotExist:
+		return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
+
+
 
 
 
