@@ -18,5 +18,13 @@ def create_book():
 
 
 
+@book.route('/', methods=['GET'])
+def get_books():
+	try:
+		# dict the books found list compheriencahdldadk cant spell
+		books = [model_to_dict(book) for book in models.Book.select()]
+		return jsonify(data = books, status = {'code': 200, 'message': 'success'})
+	except models.DoesNotExist:
+		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 

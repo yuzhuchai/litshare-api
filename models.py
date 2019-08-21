@@ -37,15 +37,9 @@ class Copy(Model):
 	book_id = ForeignKeyField(Book, backref='book')
 	condition = CharField()
 	edition = CharField()
-<<<<<<< HEAD
-	price = CharField()
-	rental_time = CharField()
-	availbility = CharField()
-=======
 	price = DecimalField(decimal_places=2)
 	rental_time = IntegerField()
 	availbility = BooleanField()
->>>>>>> b963bb77bebc03680ead0686ce9ff83c21702dd5
 
 	class Meta:
 		database = DATABASE 
@@ -65,7 +59,7 @@ class Loan(Model):
 	request_id = ForeignKeyField(Request, backref='request')
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
-	return_date = DateTimeField(default=null)
+	return_date = DateTimeField(default=None)
 
 	class Meta:
 		database = DATABASE 
