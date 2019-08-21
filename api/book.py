@@ -47,7 +47,7 @@ def create_copy(book_id):
 	# return (current_user.get_id(),"<----current_user id ")
 	'''this function creates a book copy'''
 	payload = request.get_json()
-	copy = models.Copy.create(**payload, owner_id=current_user.get_id(), book_id=book_id,)
+	copy = models.Copy.create(**payload, owner=current_user.get_id(), book=book_id,)
 	copy_dict = model_to_dict(copy)
 	return jsonify(data=copy_dict, status={'code':200, 'message':'success'})
 
@@ -56,13 +56,13 @@ def create_copy(book_id):
 @book.route('/<bookid>/copy' , methods=['GET'])
 def get_all_copys(bookid):
 	'''get all the copties of a book'''
-	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)],'<=--------hey yo')
+	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)],'<=--------hey yo')
 
 	try:
-		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)]
+		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)]
 		# copies = models.Copy.select().where(models.Copy.book_id == bookid)
 		# return(copies)
-		print(copies[0]['price'])
+		# print(copies[0]['price'])
 		return json.dumps({'data': copies, 'status':{'code':200, 'message':'success'}})
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
