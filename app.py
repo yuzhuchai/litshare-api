@@ -18,7 +18,7 @@ login_manager.init_app(app)
 # load user method
 
 # set up CORS
-# set up controller
+# set up blueprint
 
 # before_request decorator
 

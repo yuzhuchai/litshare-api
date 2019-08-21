@@ -59,7 +59,7 @@ class Loan(Model):
 	request_id = CharField()
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
-	return_date = DateTimeField(default=none)
+	return_date = DateTimeField()
 
 	class Meta:
 		database = DATABASE 
