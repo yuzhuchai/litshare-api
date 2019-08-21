@@ -24,7 +24,7 @@ class User(UserMixin, Model):
 class Book(Model):
 	title = CharField()
 	author = CharField()
-	Summary = TextField()
+	summary = TextField()
 	URL = CharField()
 	ISBN = CharField()
 
@@ -36,7 +36,7 @@ class Copy(Model):
 	owner_id = CharField()
 	book_id = CharField()
 	condition = CharField()
-	Edition = CharField()
+	edition = CharField()
 	price = CharField()
 	rental_time = CharField()
 	availbility = CharField()
