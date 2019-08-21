@@ -15,7 +15,7 @@ class User(UserMixin, Model):
 	email = CharField()
 	password = CharField()
 	bio = TextField()
-	zipcode = CharField()
+	zipcode = IntegerField()
 
 	class Meta:
 		database = DATABASE 
@@ -24,42 +24,42 @@ class User(UserMixin, Model):
 class Book(Model):
 	title = CharField()
 	author = CharField()
-	Summary = TextField()
+	summary = TextField()
 	URL = CharField()
-	ISBN = CharField()
+	ISBN = CharField(max_length = 13)
 
 	class Meta:
 		database = DATABASE 
 
 
 class Copy(Model):
-	owner_id = CharField()
-	book_id = CharField()
+	owner_id = ForeignKeyField(User, backref='owner')
+	book_id = ForeignKeyField(Book, backref='book')
 	condition = CharField()
-	Edition = CharField()
-	price = CharField()
-	rental_time = CharField()
-	availbility = CharField()
+	edition = CharField()
+	price = DecimalField(decimal_places=2)
+	rental_time = IntegerField()
+	availbility = BooleanField()
 
 	class Meta:
 		database = DATABASE 
 
 
 class Request(Model):
-	copy_id = CharField()
-	owner_id = CharField()
-	borrower_id = CharField()
-	borrower_notified = CharField()
+	copy_id = ForeignKeyField(Copy, backref='copy')
+	owner_id = ForeignKeyField(User, backref='owner')
+	borrower_id = ForeignKeyField(User, backref='borrower')
+	borrower_notified = BooleanField()
 
 	class Meta:
 		database = DATABASE 
 
 
 class Loan(Model):
-	request_id = CharField()
+	request_id = ForeignKeyField(Request, backref='request')
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
-	return_date = DateTimeField()
+	return_date = DateTimeField(default='null')
 
 	class Meta:
 		database = DATABASE 
