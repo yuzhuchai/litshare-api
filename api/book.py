@@ -7,8 +7,10 @@ from playhouse.shortcuts import model_to_dict
 #first arg is the blueprint name, second arg inport name 
 book = Blueprint('book', 'book', url_prefix='/api/books')
 
+
 @book.route('/', methods=['POST'])
 def create_book():
+	'''this function is to upload book'''
 	payload = request.get_json()
 	print(payload, 'payload')
 	book = models.Book.create(**payload)
@@ -20,6 +22,7 @@ def create_book():
 
 @book.route('/', methods=['GET'])
 def get_books():
+	'''this function is to get all the books from db'''
 	try:
 		# dict the books found list compheriencahdldadk cant spell
 		books = [model_to_dict(book) for book in models.Book.select()]
@@ -30,7 +33,11 @@ def get_books():
 
 @book.route('/<id>', mehtods=['GET'])
 def get_one_book(id):
+	'''this function is to get one book from db'''
 	book = models.Book.get_by_id(id)
 	return jsonify(data = book, status = {'code':200, 'message':'success'})
 
+
+
+	
 
