@@ -6,7 +6,7 @@ import datetime # a python module to help deal with dates
 
 
 # change this connection when depoly to a real database this is just the file on the computer
-DATABASE = SqliteDatabase('litshare.sqlite')
+DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
 
 
 
@@ -33,8 +33,8 @@ class Book(Model):
 
 
 class Copy(Model):
-	owner_id = ForeignKeyField(User, backref='owner')
-	book_id = ForeignKeyField(Book, backref='book')
+	owner = ForeignKeyField(User, backref='owner')
+	book = ForeignKeyField(Book, backref='book')
 	condition = CharField()
 	edition = CharField()
 	price = DecimalField(decimal_places=2)
@@ -45,10 +45,10 @@ class Copy(Model):
 		database = DATABASE 
 
 
-class Request(Model):
-	copy_id = ForeignKeyField(Copy, backref='copy')
-	owner_id = ForeignKeyField(User, backref='owner')
-	borrower_id = ForeignKeyField(User, backref='borrower')
+class Ask(Model):
+	copy = ForeignKeyField(Copy, backref='copy')
+	owner = ForeignKeyField(User, backref='owner')
+	borrower = ForeignKeyField(User, backref='borrower')
 	borrower_notified = BooleanField()
 
 	class Meta:
@@ -56,7 +56,7 @@ class Request(Model):
 
 
 class Loan(Model):
-	request_id = ForeignKeyField(Request, backref='request')
+	ask = ForeignKeyField(Request, backref='request')
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
 	return_date = DateTimeField(default=None)
