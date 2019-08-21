@@ -3,7 +3,7 @@ from flask_cors import CORS
 from flask_login import LoginManager
 import models
 
-from api.users import users
+from api.user import user
 from api.book import book
 from api.ask import ask
 from api.loans import loan
@@ -28,8 +28,8 @@ def load_user(userid):
 		return None
 
 # CORS
-CORS(users, origins=['http://localhost:3000'], supports_credentials=True)
-app.register_blueprint(users)
+CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+app.register_blueprint(user)
 
 CORS(book, origins=['http://localhost:3000'], supports_credentials=True)
 app.register_blueprint(book)

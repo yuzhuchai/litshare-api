@@ -9,11 +9,11 @@ from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
 from playhouse.shortcuts import model_to_dict
 
-users = Blueprint('users', 'users', url_prefix='/users')
+user = Blueprint('users', 'user', url_prefix='/users')
 
 # start user and authentication routes here
 
-@users.route('/register', methods=['post'])
+@user.route('/register', methods=['post'])
 def register():
 	'''this method registers the user'''
 	payload = request.get_json()
@@ -29,7 +29,7 @@ def register():
 		del user_dict['password']
 		return jsonify(data=user_dict, status={"code": 201, "message": "Success: user created"})
 
-@users.route('/login', methods=['post'])
+@user.route('/login', methods=['post'])
 def login():
 	'''this method logs user in'''
 	try:
@@ -45,14 +45,14 @@ def login():
 		print('hitting model does not exist')
 		return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
 
-@users.route('/logout', methods=['get'])
+@user.route('/logout', methods=['get'])
 @login_required
 def logout():
 	'''this method logs user out'''
 	logout_user()
 	return 'include redirect here'
 
-@users.route('/<id>', methods=['get'])
+@user.route('/<id>', methods=['get'])
 def show_user_info(id):
 	'''this method shows user's info'''
 	user_dict = model_to_dict(current_user)
@@ -62,10 +62,16 @@ def show_user_info(id):
 
 	return jsonify(data=user_dict, status={"code": 200, "message": "Success"})
 
-@users.route('/<id>/edit', methods=['put'])
+@user.route('/<id>/edit', methods=['put'])
 def edit_user_info(id):
 	'''this method allows user to update their info'''
 	payload = request.get_json()
 	query = models.User.update(**payload).where(models.User.id == id)
 	query.execute()
 	return 'user updated'
+
+@user.route('/<id>', methods=['delete'])
+def delete_user(id):
+	query = models.User.delete().where(models.User.id == id)
+	query.execute()
+	return jsonify(data='User successfully deleted', status={"code": 200, "message": "Success"})
