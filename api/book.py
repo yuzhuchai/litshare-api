@@ -1,6 +1,7 @@
 import models
 
 from flask import Blueprint, request, jsonify
+import simplejson as json
 from playhouse.shortcuts import model_to_dict
 from flask_login import login_user, current_user
 
@@ -52,4 +53,21 @@ def create_copy(book_id):
 
 
 	
+@book.route('/<bookid>/copy' , methods=['GET'])
+def get_all_copys(bookid):
+	'''get all the copties of a book'''
+	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)],'<=--------hey yo')
+
+	try:
+		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)]
+		# copies = models.Copy.select().where(models.Copy.book_id == bookid)
+		# return(copies)
+		print(copies[0]['price'])
+		return json.dumps({'data': copies, 'status':{'code':200, 'message':'success'}})
+	except models.DoesNotExist:
+		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
+
+
+
+
 
