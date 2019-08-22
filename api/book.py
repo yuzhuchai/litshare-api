@@ -62,7 +62,7 @@ def get_all_copys(bookid):
 		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)]
 		# copies = models.Copy.select().where(models.Copy.book_id == bookid)
 		# return(copies)
-		print(copies[0]['price'])
+		# print(copies[0]['price'])
 		return json.dumps({'data': copies, 'status':{'code':200, 'message':'success'}})
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
@@ -85,4 +85,13 @@ def update_edit_copy(bookid,copyid):
 	query.execute()
 	updated_copy = models.Copy.get_by_id(copyid)
 	return json.dumps({'data':model_to_dict(updated_copy), 'status':{'code':200, 'message':'success'}})
+
+
+@book.route('<bookid>/copy/<copyid>',methods = ['Delete'])
+def delete_copy(bookid, copyid):
+	'''this method delete a copy'''
+	query = models.Copy.delete().where(models.Copy.id == copyid)
+	query.execute()
+	return jsonify(data='resource sucessfully deleted', status={'code':200, 'message':'success'})
+
 
