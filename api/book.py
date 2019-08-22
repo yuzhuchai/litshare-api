@@ -54,6 +54,7 @@ def create_copy(book_id):
 
 	
 @book.route('/<bookid>/copy' , methods=['GET'])
+<<<<<<< HEAD
 def get_all_copies(bookid):
 	'''get all the copies of a book'''
 	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)],'<=--------hey yo')
@@ -67,6 +68,32 @@ def get_all_copies(bookid):
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
+
+
+@book.route('/<bookid>/copy/<copyid>', methods = ['GET'])
+def get_one_copy(bookid,copyid):
+	'''get one single copy'''
+	copy = models.Copy.get_by_id(copyid)
+	copy_dict = model_to_dict(copy)
+	return json.dumps({'data': copy_dict, 'status': {'code':200, 'message':'success'}})
+
+
+@book.route('<bookid>/copy/<copyid>', methods= ['PUT'])
+def update_edit_copy(bookid,copyid):
+	'''edit one copy'''
+	payload = request.get_json()
+	query = models.Copy.update(**payload).where(models.Copy.id == copyid)
+	query.execute()
+	updated_copy = models.Copy.get_by_id(copyid)
+	return json.dumps({'data':model_to_dict(updated_copy), 'status':{'code':200, 'message':'success'}})
+
+
+@book.route('<bookid>/copy/<copyid>',methods = ['Delete'])
+def delete_copy(bookid, copyid):
+	'''this method delete a copy'''
+	query = models.Copy.delete().where(models.Copy.id == copyid)
+	query.execute()
+	return jsonify(data='resource sucessfully deleted', status={'code':200, 'message':'success'})
 
 
 
