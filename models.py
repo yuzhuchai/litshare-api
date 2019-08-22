@@ -49,6 +49,7 @@ class Ask(Model):
 	copy = ForeignKeyField(Copy, backref='copy')
 	owner = ForeignKeyField(User, backref='owner')
 	borrower = ForeignKeyField(User, backref='borrower')
+	ask_date = DateTimeField(default=datetime.datetime.now)
 	borrower_notified = BooleanField()
 
 	class Meta:

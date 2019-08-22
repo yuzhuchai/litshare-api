@@ -54,9 +54,10 @@ def create_copy(book_id):
 
 	
 @book.route('/<bookid>/copy' , methods=['GET'])
-def get_all_copys(bookid):
-	'''get all the copties of a book'''
-	# print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)],'<=--------hey yo')
+<<<<<<< HEAD
+def get_all_copies(bookid):
+	'''get all the copies of a book'''
+	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)],'<=--------hey yo')
 
 	try:
 		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)]
