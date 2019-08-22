@@ -10,4 +10,6 @@ def return_book(id):
 	payload = request.get_json()
 	query = models.Loan.update(**payload).where(models.Loan.id == id)
 	query.execute()
-	return 'book returned'
+	loan = models.Loan.get_by_id(id)
+	loan_dict = model_to_dict(loan)
+	return jsonify(data=loan_dict, status={"code": 200, "message": "Successful update"})

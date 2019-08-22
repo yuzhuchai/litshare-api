@@ -68,7 +68,9 @@ def edit_user_info(id):
 	payload = request.get_json()
 	query = models.User.update(**payload).where(models.User.id == id)
 	query.execute()
-	return 'user updated'
+	user = models.User.get_by_id(id)
+	user_dict = model_to_dict(user)
+	return jsonify(data=user_dict, status={"code": 200, "message": "Successful update"})
 
 @user.route('/<id>', methods=['delete'])
 def delete_user(id):
