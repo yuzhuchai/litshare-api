@@ -7,7 +7,7 @@ import models
 from api.user import user
 from api.book import book
 from api.ask import ask
-from api.loans import loan
+from api.loan import loan
 
 DEBUG = True
 PORT = 8000
