@@ -38,7 +38,7 @@ def login():
 		print(user)
 		if check_password_hash(user.password, payload['password']):
 			login_user(user)
-			return jsonify(data={}, status={"code": 200, "message": "Login successful"})
+			return jsonify(data={model_to_dict(user)}, status={"code": 200, "message": "Login successful"})
 		elif not check_password_hash(user.password, payload['password']):
 			return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
 	except models.DoesNotExist:

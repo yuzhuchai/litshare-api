@@ -56,7 +56,7 @@ def create_copy(book_id):
 @book.route('/<bookid>/copy' , methods=['GET'])
 def get_all_copies(bookid):
 	'''get all the copies of a book'''
-	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)],'<=--------hey yo')
+	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)],'<=--------hey yo')
 
 	try:
 		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)]
@@ -104,4 +104,5 @@ def query_string_search():
 	# return keyword
 	books_found = [model_to_dict(book) for book in models.Book.select().where(models.Book.author.contains(keyword) | models.Book.title.contains(keyword))]
 	return jsonify(data = books_found, status = {'code':200, 'message':'success'})
+
 
