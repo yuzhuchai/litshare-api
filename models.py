@@ -33,31 +33,31 @@ class Book(Model):
 
 
 class Copy(Model):
-	owner = ForeignKeyField(User, backref='owner')
-	book = ForeignKeyField(Book, backref='book')
+	owner_id = ForeignKeyField(User, backref='owner')
+	book_id = ForeignKeyField(Book, backref='book')
 	condition = CharField()
 	edition = CharField()
-	price = DecimalField(decimal_places=2)
+	price = DecimalField(decimal_places=2, constraints=[Check('price > 0')])
 	rental_time = IntegerField()
-	availbility = BooleanField()
+	availability = BooleanField(default=True)
 
 	class Meta:
 		database = DATABASE 
 
 
 class Ask(Model):
-	copy = ForeignKeyField(Copy, backref='copy')
-	owner = ForeignKeyField(User, backref='owner')
-	borrower = ForeignKeyField(User, backref='borrower')
+	copy_id = ForeignKeyField(Copy, backref='copy')
+	owner_id = ForeignKeyField(User, backref='owner')
+	borrower_id = ForeignKeyField(User, backref='borrower')
 	ask_date = DateTimeField(default=datetime.datetime.now)
-	borrower_notified = BooleanField()
+	borrower_notified = BooleanField(default=False)
 
 	class Meta:
 		database = DATABASE 
 
 
 class Loan(Model):
-	ask = ForeignKeyField(Ask, backref='ask')
+	ask_id = ForeignKeyField(Ask, backref='ask')
 	date_borrowed = DateTimeField(default=datetime.datetime.now)
 	date_due = DateTimeField()
 	return_date = DateTimeField(default=None)
