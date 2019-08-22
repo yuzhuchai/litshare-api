@@ -71,6 +71,18 @@ def get_all_copys(bookid):
 
 @book.route('/<bookid>/copy/<copyid>', methods = ['GET'])
 def get_one_copy(bookid,copyid):
+	'''get one single copy'''
 	copy = models.Copy.get_by_id(copyid)
 	copy_dict = model_to_dict(copy)
 	return json.dumps({'data': copy_dict, 'status': {'code':200, 'message':'success'}})
+
+
+@book.route('<bookid>/copy/<copyid>', methods= ['PUT'])
+def update_edit_copy(bookid,copyid):
+	'''edit one copy'''
+	payload = request.get_json()
+	query = models.Copy.update(**payload).where(models.Copy.id == copyid)
+	query.execute()
+	updated_copy = models.Copy.get_by_id(copyid)
+	return json.dumps({'data':model_to_dict(updated_copy), 'status':{'code':200, 'message':'success'}})
+
