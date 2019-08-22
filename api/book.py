@@ -96,4 +96,12 @@ def delete_copy(bookid, copyid):
 
 
 
+@book.route('/results', methods=['GET'])
+def query_string_search():
+	''' this is important!!!!!!!!!get the querying string, inside the react app add ?keyword=(user search input)'''
+	# return request.query_string 
+	keyword = request.args.get('keyword')
+	# return keyword
+	books_found = [model_to_dict(book) for book in models.Book.select().where(models.Book.author.contains(keyword) | models.Book.title.contains(keyword))]
+	return jsonify(data = books_found, status = {'code':200, 'message':'success'})
 
