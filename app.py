@@ -1,6 +1,6 @@
 from flask import Flask, g
 from flask_cors import CORS
-from flask_login import LoginManager, login_user, current_user
+from flask_login import LoginManager, current_user
 
 import models
 
@@ -62,5 +62,5 @@ def index():
 
 if __name__ == '__main__':
 	models.initialize()
-	print(current_user, 'current_user id in app')
+	print(current_user, 'current_user id in app --------------------------')
 	app.run(debug=DEBUG, port=PORT)

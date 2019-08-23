@@ -3,7 +3,7 @@ import models
 from flask import Blueprint, request, jsonify
 import simplejson as json
 from playhouse.shortcuts import model_to_dict
-from flask_login import login_user, current_user
+from flask_login import current_user, login_required
 
 
 #first arg is the blueprint name, second arg inport name 
@@ -13,7 +13,7 @@ book = Blueprint('book', 'book', url_prefix='/books')
 @book.route('/', methods=['POST'])
 def create_book():
 	'''this function is to upload book'''
-	payload = request.form.to_dict()
+	payload = request.get_json()
 	print(payload, 'payload')
 	book = models.Book.create(**payload)
 	book_dict = model_to_dict(book)
@@ -42,12 +42,14 @@ def get_one_book(id):
 
 
 @book.route('/<book_id>/copy', methods=['POST'])
+@login_required 
 def create_copy(book_id):
-	# @login_required
-	# return (current_user.get_id(),"<----current_user id ")
 	'''this function creates a book copy'''
+	print("CREATE COPY ROUTE HIT")
+	print(current_user,"<----current_user id ")
+
 	payload = request.get_json()
-	copy = models.Copy.create(**payload, owner=current_user.get_id(), book=book_id,)
+	copy = models.Copy.create(**payload, owner_id=current_user.id, book_id=book_id)
 	copy_dict = model_to_dict(copy)
 	return jsonify(data=copy_dict, status={'code':200, 'message':'success'})
 
@@ -59,7 +61,7 @@ def get_all_copies(bookid):
 	print([model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)],'<=--------hey yo')
 
 	try:
-		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book == bookid)]
+		copies = [model_to_dict(copy) for copy in models.Copy.select().where(models.Copy.book_id == bookid)]
 		# copies = models.Copy.select().where(models.Copy.book_id == bookid)
 		# return(copies)
 		# print(copies[0]['price'])

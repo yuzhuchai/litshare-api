@@ -17,6 +17,7 @@ user = Blueprint('users', 'user', url_prefix='/users')
 def register():
 	'''this method registers the user'''
 	payload = request.form.to_dict()
+	# payload = request.get_json()
 	try:
 		models.User.get(models.User.email == payload['email'])
 		return jsonify(data={}, status={"code": 401, "message": "A user with that email already exists"})
