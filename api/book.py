@@ -13,7 +13,7 @@ book = Blueprint('book', 'book', url_prefix='/books')
 @book.route('/', methods=['POST'])
 def create_book():
 	'''this function is to upload book'''
-	payload = request.get_json()
+	payload = request.form.to_dict()
 	print(payload, 'payload')
 	book = models.Book.create(**payload)
 	book_dict = model_to_dict(book)
