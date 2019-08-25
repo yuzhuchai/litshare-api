@@ -49,7 +49,6 @@ def login():
 		return jsonify(data={}, status={"code": 401, "message": "Error: incorrect email or password"})
 
 @user.route('/logout', methods=['get'])
-@login_required
 def logout():
 	'''this method logs user out'''
 	logout_user()
