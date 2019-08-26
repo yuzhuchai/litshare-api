@@ -50,7 +50,7 @@ class Ask(Model):
 	owner_id = ForeignKeyField(User, backref='owner')
 	borrower_id = ForeignKeyField(User, backref='borrower')
 	ask_date = DateTimeField(default=datetime.datetime.now)
-	approval_granted = BooleanField()
+	approval_granted = BooleanField(null=True)
 
 	class Meta:
 		database = DATABASE 
