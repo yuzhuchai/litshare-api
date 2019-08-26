@@ -29,16 +29,16 @@ def load_user(userid):
 		return None
 
 # CORS
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(user)
 
-CORS(book, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(book, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(book)
 
-CORS(ask, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(ask, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(ask)
 
-CORS(loan, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(loan, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
 app.register_blueprint(loan)
 
 

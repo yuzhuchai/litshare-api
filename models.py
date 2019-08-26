@@ -9,8 +9,11 @@ import datetime # a python module to help deal with dates
 
 
 # change this connection when depoly to a real database this is just the file on the computer
-DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
 
+if os.environ.get('HEROKU_ON'):
+	DATABASE = connect(os.environ.get('DATABASE_URL'), pragmas={'ForeignKeyFieldn_keys': 1}) 
+else:
+	DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
 
 
 class User(UserMixin, Model):
