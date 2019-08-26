@@ -20,10 +20,18 @@ def get_ask():
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
+@ask.route('/<id>', methods=['PUT'])
+def notify_borrower():
+	payload = request.get_json()
+	loan = models.Ask.create(**payload)
+	loan_dict = model_to_dict(loan)
+	return jsonify(data=loan_dict, status={'code': 201, 'message':'success'})
+
 @ask.route('/sent/<user_id>', methods=['GET'])
 def get_ask_borrower(user_id):
 	try:
 		ask_sent = [model_to_dict(ask) for ask in models.Ask.select().where(models.Ask.borrower_id == user_id)]
+
 		return jsonify(data = ask_sent, status = {'code': 200, 'message': 'success'})
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
@@ -33,15 +41,13 @@ def get_ask_owner(user_id):
 	try:
 		ask_received = [model_to_dict(ask) for ask in models.Ask.select().where(models.Ask.owner_id == user_id)]
 		return jsonify(data = ask_received, status = {'code': 200, 'message': 'success'})
-	except mdoels.DoesNotExist:
+	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
-# @ask.route('/<ask_id>', method=['GET'])
-# def get_one_ask(ask_id):
-# 	try:
-
-
-
-# 		return jsonify(data = asks, status = {'code': 200, 'message': 'success'})
-# 	except mdoels.DoesNotExist:
-# 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
+@ask.route('/<ask_id>', methods=['GET'])
+def get_one_ask(ask_id):
+	try:
+		ask_one = [model_to_dict(ask) for ask in moodels.Ask.select().where(models.Ask.id == ask_id)]
+		return jsonify(data = ask_one, status = {'code': 200, 'message': 'success'})
+	except mdoels.DoesNotExist:
+		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
