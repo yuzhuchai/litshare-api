@@ -1,5 +1,8 @@
 from peewee import * #star everything
 
+import os
+from playhouse.db_url import connect 
+
 from flask_login import UserMixin # special mini class that we can inherit from that gives us special properties to help create sessions. 
 
 import datetime # a python module to help deal with dates 
