@@ -1,7 +1,7 @@
 from flask import Flask, g
 from flask_cors import CORS
 from flask_login import LoginManager, current_user
-
+import os
 import models
 
 from api.user import user
@@ -29,16 +29,16 @@ def load_user(userid):
 		return None
 
 # CORS
-CORS(user, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(user, origins=['http://localhost:3000', 'https://litshare-react-app.herokuapp.com/'], supports_credentials=True)
 app.register_blueprint(user)
 
-CORS(book, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(book, origins=['http://localhost:3000', 'https://litshare-react-app.herokuapp.com/'], supports_credentials=True)
 app.register_blueprint(book)
 
-CORS(ask, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(ask, origins=['http://localhost:3000', 'https://litshare-react-app.herokuapp.com/'], supports_credentials=True)
 app.register_blueprint(ask)
 
-CORS(loan, origins=['http://localhost:3000'], supports_credentials=True)
+CORS(loan, origins=['http://localhost:3000', 'https://litshare-react-app.herokuapp.com/'], supports_credentials=True)
 app.register_blueprint(loan)
 
 
@@ -59,6 +59,10 @@ def after_request(response):
 @app.route('/')
 def index():
 	return 'connected'
+
+if 'ON_HEROKU' in os.environ:
+    print('hitting ')
+    models.initialize()
 
 if __name__ == '__main__':
 	models.initialize()
