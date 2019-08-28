@@ -8,9 +8,9 @@ import os
 
 from playhouse.db_url import connect
 
-DATABASE = connect(os.environ.get('DATABASE_URL'))
+# DATABASE = connect(os.environ.get('DATABASE_URL'))
 # change this connection when depoly to a real database this is just the file on the computer
-# DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
+DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
 
 class User(UserMixin, Model):
 	username = CharField()
