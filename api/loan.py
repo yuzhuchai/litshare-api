@@ -8,7 +8,7 @@ loan = Blueprint('loan', 'loan', url_prefix='/loan')
 @loan.route('/', methods=['POST'])
 def create_loan():
 	payload = request.get_json()
-	loan = models.Ask.create(**payload)
+	loan = models.Loan.create(**payload)
 	loan_dict = model_to_dict(loan)
 	return jsonify(data=loan_dict, status={'code': 201, 'message':'success'})
 

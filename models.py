@@ -1,16 +1,25 @@
 from peewee import * #star everything
 
+import os
+from playhouse.db_url import connect 
+
 from flask_login import UserMixin # special mini class that we can inherit from that gives us special properties to help create sessions. 
 
 import datetime # a python module to help deal with dates 
 
 import os
 
-from playhouse.db_url import connect
 
+<<<<<<< HEAD
 # DATABASE = connect(os.environ.get('DATABASE_URL'))
 # change this connection when depoly to a real database this is just the file on the computer
 DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
+=======
+if os.environ.get('HEROKU_ON'):
+	DATABASE = connect(os.environ.get('DATABASE_URL'), pragmas={'ForeignKeyFieldn_keys': 1}) 
+else:
+	DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
+>>>>>>> e08ccf8b0567fd2b0ab233644965e955344e847d
 
 class User(UserMixin, Model):
 	username = CharField()
