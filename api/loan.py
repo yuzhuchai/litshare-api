@@ -21,19 +21,19 @@ def get_loans():
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 
-@loan.route('/<id>', methods=['put'])
+@loan.route('/<loan_id>', methods=['put'])
 def return_book(id):
 	payload = request.get_json()
-	query = models.Loan.update(**payload).where(models.Loan.id == id)
+	query = models.Loan.update(**payload).where(models.Loan.id == loan_id)
 	query.execute()
-	loan = models.Loan.get_by_id(id)
+	loan = models.Loan.get_by_id(loan_id)
 	loan_dict = model_to_dict(loan)
 	return jsonify(data=loan_dict, status={"code": 200, "message": "Successful update"})
 
-@loan.route('/<ask_id>', methods=['GET'])
+@loan.route('/<loan_id>', methods=['GET'])
 def get_one_ask(loan_id):
 	try:
-		loanaa_one = [model_to_dict(ask) for ask in moodels.Ask.select().where(models.Ask.id == ask_id)]
-		return jsonify(data = ask_one, status = {'code': 200, 'message': 'success'})
+		loan_one = [model_to_dict(loan) for loan in moodels.Loan.select().where(models.Loan.id == loan_id)]
+		return jsonify(data = loan_one, status = {'code': 200, 'message': 'success'})
 	except mdoels.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})

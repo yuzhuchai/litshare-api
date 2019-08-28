@@ -20,12 +20,29 @@ def get_ask():
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
-@ask.route('/<id>', methods=['PUT'])
-def notify_borrower():
+@ask.route('/<askid>', methods=['PUT'])
+def notify_borrower(askid):
 	payload = request.get_json()
-	loan = models.Ask.create(**payload)
-	loan_dict = model_to_dict(loan)
-	return jsonify(data=loan_dict, status={'code': 201, 'message':'success'})
+	query = models.Ask.update(**payload).where(models.Ask.id == askid)
+	query.execute()
+	updated_ask = models.Ask.get_by_id(askid)
+	return jsonify(data=updated_ask, status={'code':201, 'message':'success'})
+
+@ask.route('/<ask_id>', methods=['GET'])
+def get_one_ask(ask_id):
+	try:
+		ask_one = [model_to_dict(ask) for ask in moodels.Ask.select().where(models.Ask.id == ask_id)]
+		return jsonify(data = ask_one, status = {'code': 200, 'message': 'success'})
+	except mdoels.DoesNotExist:
+		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
+
+@ask.route('/<user_id>', methods=['GET'])
+def get_asks_for_user(user_id):
+	try:
+		ask_user = [model_to_dict(ask) for ask in models.Ask.select().where(models.Ask.borrower_id == user_id or models.Ask.owner_id == user_id)]
+		return jsonify(data = ask_user, status = {'code': 200, 'message': 'success'})
+	except models.DoesNotExist:
+		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 @ask.route('/sent/<user_id>', methods=['GET'])
 def get_ask_borrower(user_id):
@@ -44,10 +61,3 @@ def get_ask_owner(user_id):
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
-@ask.route('/<ask_id>', methods=['GET'])
-def get_one_ask(ask_id):
-	try:
-		ask_one = [model_to_dict(ask) for ask in moodels.Ask.select().where(models.Ask.id == ask_id)]
-		return jsonify(data = ask_one, status = {'code': 200, 'message': 'success'})
-	except mdoels.DoesNotExist:
-		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
