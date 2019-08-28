@@ -28,17 +28,21 @@ def load_user(userid):
 	except models.DoesNotExist:
 		return None
 
-# CORS
-CORS(user, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
+if 'ORIGIN' in os.environ:
+	origin = os.environ['ORIGIN']
+else:
+	origin = 'http://localhost:3000'
+
+CORS(user, origins= [origin], supports_credentials=True)
 app.register_blueprint(user)
 
-CORS(book, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
+CORS(book, origins= [origin], supports_credentials=True)
 app.register_blueprint(book)
 
-CORS(ask, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
+CORS(ask, origins=[origin], supports_credentials=True)
 app.register_blueprint(ask)
 
-CORS(loan, origins=['http://localhost:3000','https://litshare.herokuapp.com'], supports_credentials=True)
+CORS(loan, origins=[origin], supports_credentials=True)
 app.register_blueprint(loan)
 
 

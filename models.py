@@ -7,14 +7,13 @@ from flask_login import UserMixin # special mini class that we can inherit from 
 
 import datetime # a python module to help deal with dates 
 
+import os
 
-# change this connection when depoly to a real database this is just the file on the computer
 
 if os.environ.get('HEROKU_ON'):
 	DATABASE = connect(os.environ.get('DATABASE_URL'), pragmas={'ForeignKeyFieldn_keys': 1}) 
 else:
 	DATABASE = SqliteDatabase('litshare.sqlite', pragmas={'foreign_keys': 1})
-
 
 class User(UserMixin, Model):
 	username = CharField()
@@ -56,7 +55,7 @@ class Ask(Model):
 	owner_id = ForeignKeyField(User, backref='owner')
 	borrower_id = ForeignKeyField(User, backref='borrower')
 	ask_date = DateTimeField(default=datetime.datetime.now)
-	approval_granted = BooleanField()
+	approval_granted = BooleanField(null=True)
 
 	class Meta:
 		database = DATABASE 
