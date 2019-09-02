@@ -67,9 +67,9 @@ class Ask(Model):
 
 class Loan(Model):
 	ask_id = ForeignKeyField(Ask, backref='ask')
-	date_borrowed = DateTimeField(default=datetime.datetime.now)
-	date_due = DateTimeField()
-	return_date = DateTimeField(default=None)
+	date_borrowed = CharField()
+	date_due = CharField()
+	returned = BooleanField(null=True)
 
 	class Meta:
 		database = DATABASE 

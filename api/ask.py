@@ -20,21 +20,24 @@ def get_ask():
 	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
-@ask.route('/approval/<ask_id>', methods=['PUT'])
+@ask.route('/<ask_id>', methods=['PUT'])
 def notify_borrower(ask_id):
 	payload = request.get_json()
+
 	query = models.Ask.update(**payload).where(models.Ask.id == ask_id)
 	query.execute()
+	ask = models.Ask.get_by_id(ask_id)
+	ask_dict = model_to_dict(ask)
 	# updated_ask = [model_to_dict(ask) for ask in models.Ask.get_by_id(askid)]
 	# updated_ask = models.Ask.get_by_id(ask_id)
-	return jsonify(data={}, status={'code':201, 'message':'success'})
+	return jsonify(data=ask_dict, status={'code':201, 'message':'success'})
 
 @ask.route('/<ask_id>', methods=['GET'])
 def get_one_ask(ask_id):
 	try:
-		ask_one = [model_to_dict(ask) for ask in moodels.Ask.select().where(models.Ask.id == ask_id)]
+		ask_one = [model_to_dict(ask) for ask in models.Ask.select().where(models.Ask.id == ask_id)]
 		return jsonify(data = ask_one, status = {'code': 200, 'message': 'success'})
-	except mdoels.DoesNotExist:
+	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
 
 @ask.route('/all/<user_id>', methods=['GET'])
