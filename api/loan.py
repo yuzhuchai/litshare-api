@@ -22,7 +22,7 @@ def get_loans():
 
 
 @loan.route('/<loan_id>', methods=['put'])
-def return_book(id):
+def return_book(loan_id):
 	payload = request.get_json()
 	query = models.Loan.update(**payload).where(models.Loan.id == loan_id)
 	query.execute()
@@ -33,7 +33,7 @@ def return_book(id):
 @loan.route('/<loan_id>', methods=['GET'])
 def get_one_ask(loan_id):
 	try:
-		loan_one = [model_to_dict(loan) for loan in moodels.Loan.select().where(models.Loan.id == loan_id)]
+		loan_one = [model_to_dict(loan) for loan in models.Loan.select().where(models.Loan.id == loan_id)]
 		return jsonify(data = loan_one, status = {'code': 200, 'message': 'success'})
-	except mdoels.DoesNotExist:
+	except models.DoesNotExist:
 		return jsonify(data = {}, status = {'code': 401, 'message': 'no resource found'})
